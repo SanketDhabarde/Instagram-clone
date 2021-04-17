@@ -1,8 +1,9 @@
 
-import { Button, Input, Modal } from '@material-ui/core';
+import { Avatar, Button, Input, Modal } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React , { useState, useEffect } from 'react';
 import './App.css';
+import ImageUpload from './Comps/ImageUpload';
 import Post from './Comps/Post';
 import {db, auth} from './firebase';
 
@@ -32,8 +33,8 @@ const useStyles = makeStyles((theme) => ({
 function App() {
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
-  const [modalStyle] = React.useState(getModalStyle);
-  const [open, setOpen] = React.useState(false);
+  const [modalStyle] = useState(getModalStyle);
+  const [open, setOpen] = useState(false);
   const [posts, setPosts] = useState([]);
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -57,8 +58,7 @@ function App() {
   }, [user, username]);
 
   useEffect(() => {
-    db.collection('posts').onSnapshot( snap => {
-      
+    db.collection('posts').orderBy('timestamp', 'desc').onSnapshot( snap => {
       setPosts(snap.docs.map( doc => ({
         id: doc.id,
         post: doc.data()
@@ -88,6 +88,7 @@ function App() {
 
     setOpenSignIn(false);
   }
+  
   
   return (
     <div className="app">
@@ -120,7 +121,7 @@ function App() {
               type="password"
               value={password}
               onChange={(event) => setPassword(event.target.value)}/>
-            <Button onClick={signup}>Sign up</Button>
+            <Button type="submit" onClick={signup}>Sign up</Button>
           </form>
           
         </div>
@@ -148,7 +149,7 @@ function App() {
               type="password"
               value={password}
               onChange={(event) => setPassword(event.target.value)}/>
-            <Button onClick={signin}>Sign in</Button>
+            <Button type="submit" onClick={signin}>Sign in</Button>
           </form>
           
         </div>
@@ -157,22 +158,38 @@ function App() {
         <img className="app__headerImage"
             src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png"
             alt=""/>
-      </div>
-      {user ? 
-        <Button onClick={() => auth.signOut()}>logout</Button> : 
-        <div className="app__loginContainer">
-          <Button onClick={() => setOpenSignIn(true)}>sign In</Button>
-          <Button onClick={() => setOpen(true)}>sign up</Button>
-        </div>
-      }
- 
-      <h1>welcome to instagram</h1>
 
-      {
-        posts.map(({id, post}) => (
-          <Post key={id} username={post.username} caption={post.caption} imageUrl={post.imageUrl}/>
-        ))
-      }
+        {user ? 
+          <Button onClick={() => auth.signOut()}>logout</Button> : 
+          <div className="app__loginContainer">
+            <Button onClick={() => setOpenSignIn(true)}>sign In</Button>
+            <Button onClick={() => setOpen(true)}>sign up</Button>
+          </div>
+        }
+      </div>
+      
+      <div className="app__posts">
+        <div className="app__postsLeft">
+          {
+            posts.map(({id, post}) => (
+              <Post key={id} username={post.username} caption={post.caption} imageUrl={post.imageUrl}/>
+            ))
+          }
+        </div>
+        <div className="app__postsRight">
+          { user && 
+              <div className="post__header">
+                  <Avatar className="post__avatar" alt="SanketD" src="/static/images/avatar/1.jpg" />
+                  <h3>{user.displayName}</h3>
+              </div>
+          }
+           
+        </div>
+      </div>
+
+      
+
+    {user ? <ImageUpload username={user.displayName}/> : <h3>please login to upload image</h3>}
     </div>
   );
 }

@@ -1,0 +1,17 @@
+.ImageUpload{
+    border-top: 1px solid lightgray;
+}
+.ImageUpload__form{
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    margin: 10px auto;
+}
+
+.ImageUpload__progressBar{
+    width: 100%;
+}
+
+.ImageUpload__inputField{
+    margin-bottom: 15px;
+}
