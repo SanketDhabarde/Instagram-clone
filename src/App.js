@@ -41,6 +41,10 @@ function App() {
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
   const [openSignIn, setOpenSignIn] = useState(false);
+  const [uploadStyle, setUploadStyle] = useState({
+    display: 'none'
+  });
+  const [show, setShow] = useState(true);
 
   useEffect(() => {
    const unSubscribe=  auth.onAuthStateChanged((authUser) => {
@@ -87,6 +91,15 @@ function App() {
     .catch(error => alert(error.message))
 
     setOpenSignIn(false);
+  }
+
+  const uploadHandler = () => {
+    if(show){
+      setUploadStyle({display: 'flex'});
+    }else{
+      setUploadStyle({display: 'none'});
+    } 
+    setShow(!show);
   }
   
   
@@ -160,7 +173,12 @@ function App() {
             alt=""/>
 
         {user ? 
-          <Button onClick={() => auth.signOut()}>logout</Button> : 
+        <div className="app__logoutContainer">
+          <Button onClick={uploadHandler}>Upload</Button>
+          <Button onClick={() => auth.signOut()}>logout</Button> 
+          <Avatar className="post__avatar" alt={user.displayName} src="/static/images/avatar/1.jpg" />
+        </div>
+          : 
           <div className="app__loginContainer">
             <Button onClick={() => setOpenSignIn(true)}>sign In</Button>
             <Button onClick={() => setOpen(true)}>sign up</Button>
@@ -179,7 +197,7 @@ function App() {
         <div className="app__postsRight">
           { user && 
               <div className="post__header">
-                  <Avatar className="post__avatar" alt="SanketD" src="/static/images/avatar/1.jpg" />
+                  <Avatar className="post__avatar" alt={user.displayName} src="/static/images/avatar/1.jpg" />
                   <h3>{user.displayName}</h3>
               </div>
           }
@@ -189,7 +207,7 @@ function App() {
 
       
 
-    {user ? <ImageUpload username={user.displayName}/> : <h3>please login to upload image</h3>}
+    {user ? <ImageUpload style={uploadStyle} username={user.displayName} setUploadStyle={setUploadStyle} setShow={setShow}/> : <h3 style={{textAlign: 'center', borderTop: '1px solid lightgray', padding: '15px', position: 'sticky', bottom: '0', backgroundColor: 'white'}}>please login to upload image</h3>}
     </div>
   );
 }

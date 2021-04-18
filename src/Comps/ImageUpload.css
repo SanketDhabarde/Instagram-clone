@@ -1,5 +1,8 @@
 .ImageUpload{
     border-top: 1px solid lightgray;
+    position: sticky;
+    bottom: 0;
+    background-color: white;
 }
 .ImageUpload__form{
     display: flex;

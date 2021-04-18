@@ -4,10 +4,11 @@ import { db, storage } from '../firebase';
 import firebase from 'firebase/app';
 import './ImageUpload.css';
 
-function ImageUpload({ username }) {
+function ImageUpload({ username, style, setUploadStyle, setShow }) {
     const [caption, setCaption] = useState('');
     const [progress, setProgress] = useState(0);
     const [image, setImage] = useState(null);
+
 
 
     const imageHandler = (event) => {
@@ -35,11 +36,13 @@ function ImageUpload({ username }) {
             setProgress(0);
             setCaption('');
             setImage(null);
+            setUploadStyle({display: 'none'});
+            setShow(true);
         })
     }
 
     return (
-        <div className="ImageUpload">
+        <div className="ImageUpload" style={style}>
             <form className="ImageUpload__form">
                 <progress className="ImageUpload__progressBar" value={progress} max="100"/>
                 <Input className="ImageUpload__inputField" type="text" placeholder="caption..." value={caption} onChange={(event) => setCaption(event.target.value)}/>

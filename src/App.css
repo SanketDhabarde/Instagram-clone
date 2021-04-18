@@ -4,7 +4,7 @@
 
 .app{
   background-color: #fafafa;
-  height: 100vh;
+  height: auto;
 }
 
 .app__posts{
@@ -18,12 +18,19 @@
 }
 
 .app__header{
+  position: sticky;
+  top: 0;
+  z-index: 1;
   background-color: white;
-  padding: 20px;
+  padding: 15px;
   border-bottom: 1px solid lightgray;
   display: flex;
   justify-content: space-between;
   
+}
+
+.app__logoutContainer{
+  display: flex;
 }
 
 .app__headerImage{
@@ -36,4 +43,10 @@
 
 .app__input{
   margin-bottom: 10px;
+}
+
+@media (max-width: 614px){
+  .app__postsRight{
+    display: none;
+  }
 }

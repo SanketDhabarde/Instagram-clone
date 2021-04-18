@@ -41,7 +41,7 @@ function Post({postId, user, username, caption, imageUrl}) {
     return (
         <div className="post">
             <div className="post__header">
-                <Avatar className="post__avatar" alt="SanketD" src="/static/images/avatar/1.jpg" />
+                <Avatar className="post__avatar" alt={username} src="/static/images/avatar/1.jpg" />
                 <h3>{username}</h3>
             </div>
             <img className="post__image" src={imageUrl} alt=""/>
@@ -55,21 +55,23 @@ function Post({postId, user, username, caption, imageUrl}) {
                 ))}
             </div>
             
+            {user && 
+                <form className="post__commentBox">
+                    <input 
+                        className="post__input"
+                        type="text"
+                        value={comment}
+                        placeholder="Add a comment..."
+                        onChange={(e) => setComment(e.target.value)}/>
+                    <button
+                        className="post__button"
+                        disabled={!comment}
+                        type="submit"
+                        onClick={commentHandler}
+                    >Post</button>
+                </form>  
+            }
             
-            <form className="post__commentBox">
-                <input 
-                    className="post__input"
-                    type="text"
-                    value={comment}
-                    placeholder="Add a comment..."
-                    onChange={(e) => setComment(e.target.value)}/>
-                <button
-                    className="post__button"
-                    disabled={!comment}
-                    type="submit"
-                    onClick={commentHandler}
-                >Post</button>
-            </form>
         
         </div>
     )
