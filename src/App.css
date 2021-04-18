@@ -45,6 +45,14 @@
   margin-bottom: 10px;
 }
 
+.app__copyright{
+  color:#c7c7c7;
+  font-size: 11px;
+  padding-left: 20px;
+  font-weight: 400;
+  margin-top: 20px;
+}
+
 @media (max-width: 614px){
   .app__postsRight{
     display: none;

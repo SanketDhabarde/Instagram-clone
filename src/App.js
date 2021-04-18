@@ -201,6 +201,9 @@ function App() {
                   <h3>{user.displayName}</h3>
               </div>
           }
+          <div className="app__copyright">
+            <span>© 2021 INSTAGRAM-CLONE BY SANKET_D</span>
+          </div>
            
         </div>
       </div>
