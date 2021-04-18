@@ -3,17 +3,27 @@ import React, { useState } from 'react';
 import { db, storage } from '../firebase';
 import firebase from 'firebase/app';
 import './ImageUpload.css';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+toast.configure();
 
 function ImageUpload({ username, style, setUploadStyle, setShow }) {
     const [caption, setCaption] = useState('');
     const [progress, setProgress] = useState(0);
     const [image, setImage] = useState(null);
 
-
+    const types = ['image/jpeg', 'image/png'];
 
     const imageHandler = (event) => {
         const uploadedImage= event.target.files[0];
-        setImage(uploadedImage);
+        if(uploadedImage &&  types.includes(uploadedImage.type)){
+            setImage(uploadedImage);
+        }else{
+            toast.error('please select file of type jpeg/png', { position: 'top-center'});
+            setImage(null);
+        }
+        
     };
 
     const clickHandler = (event) => {
@@ -47,7 +57,7 @@ function ImageUpload({ username, style, setUploadStyle, setShow }) {
                 <progress className="ImageUpload__progressBar" value={progress} max="100"/>
                 <Input className="ImageUpload__inputField" type="text" placeholder="caption..." value={caption} onChange={(event) => setCaption(event.target.value)}/>
                 <Input className="ImageUpload__inputField" type="file" onChange={imageHandler}/>
-                <Button type="submit" onClick={clickHandler}>Upload</Button>
+                <Button type="submit" disabled={!image} onClick={clickHandler}>Upload</Button>
             </form>
             
         </div>

@@ -6,6 +6,10 @@ import './App.css';
 import ImageUpload from './Comps/ImageUpload';
 import Post from './Comps/Post';
 import {db, auth} from './firebase';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+toast.configure();
 
 function getModalStyle() {
   const top = 50;
@@ -79,7 +83,7 @@ function App() {
         displayName: username
       })
     })
-    .catch(error => alert(error.message))
+    .catch(error => toast.error(error.message, {position: 'top-center'}))
 
     setOpen(false);
   }
@@ -88,7 +92,7 @@ function App() {
     event.preventDefault();
 
     auth.signInWithEmailAndPassword(email, password)
-    .catch(error => alert(error.message))
+    .catch(error => toast.error(error.message, {position: 'top-center'}))
 
     setOpenSignIn(false);
   }
