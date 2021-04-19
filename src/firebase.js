@@ -3,7 +3,7 @@ import 'firebase/firestore';
 import 'firebase/storage';
 import 'firebase/auth';
 
-const fireabseApp = firebase.initializeApp({
+const firebaseApp = firebase.initializeApp({
     apiKey: "AIzaSyBop7AQbKoGkhdhefwDcRNEkcN2Uo4P1Fg",
     authDomain: "instagram-clone-f5004.firebaseapp.com",
     databaseURL: "https://instagram-clone-f5004-default-rtdb.firebaseio.com",
@@ -14,7 +14,7 @@ const fireabseApp = firebase.initializeApp({
     measurementId: "G-LXG8TKBCKS"
 });
 
-const db= fireabseApp.firestore();
+const db= firebaseApp.firestore();
 const storage = firebase.storage();
 const auth= firebase.auth();
 
