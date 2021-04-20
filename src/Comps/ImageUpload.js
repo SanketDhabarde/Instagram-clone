@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 toast.configure();
 
-function ImageUpload({ username, style, setUploadStyle, setShow }) {
+function ImageUpload({userId, username, style, setUploadStyle, setShow}) {
     const [caption, setCaption] = useState('');
     const [progress, setProgress] = useState(0);
     const [image, setImage] = useState(null);
@@ -34,14 +34,17 @@ function ImageUpload({ username, style, setUploadStyle, setShow }) {
             let percentage= (snaps.bytesTransferred/snaps.totalBytes) * 100;
             setProgress(percentage);
         }, (error) => {
-            console.log(error.message);
+            toast.error(error.message, {position: 'top-center'});
         }, async () => {
             const url = await storageRef.getDownloadURL();
             db.collection('posts').add({
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 caption: caption,
                 imageUrl: url,
-                username: username
+                username: username,
+                likes: 0,
+                likeBy: [],
+                userId: userId
             })
             setProgress(0);
             setCaption('');

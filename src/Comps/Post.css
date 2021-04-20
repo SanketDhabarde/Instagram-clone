@@ -23,7 +23,7 @@
 
 .post__text{
     font-weight: normal;
-    padding: 20px;
+    padding: 0 16px;
 }
 
 .post__commentBox{
@@ -48,5 +48,11 @@
 }
 
 .post__comments{
-    padding: 20px;
+    padding: 16px;
+}
+
+.post__like{
+    display: flex;
+    align-items: center;
+    padding: 10px;
 }

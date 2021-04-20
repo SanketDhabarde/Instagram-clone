@@ -4,10 +4,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import React , { useState, useEffect } from 'react';
 import './App.css';
 import ImageUpload from './Comps/ImageUpload';
-import Post from './Comps/Post';
+import  Post from './Comps/Post';
 import {db, auth} from './firebase';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 
 toast.configure();
 
@@ -49,6 +50,8 @@ function App() {
     display: 'none'
   });
   const [show, setShow] = useState(true);
+
+  
 
   useEffect(() => {
    const unSubscribe=  auth.onAuthStateChanged((authUser) => {
@@ -194,7 +197,7 @@ function App() {
         <div className="app__postsLeft">
           {
             posts.map(({id, post}) => (
-              <Post key={id} postId={id} user={user} username={post.username} caption={post.caption} imageUrl={post.imageUrl}/>
+              <Post key={id} postId={id} user={user} username={post.username} caption={post.caption} likeBy={post.likeBy} likeCounter={post.likes} imageUrl={post.imageUrl}/>
             ))
           }
         </div>
@@ -214,7 +217,7 @@ function App() {
 
       
 
-    {user ? <ImageUpload style={uploadStyle} username={user.displayName} setUploadStyle={setUploadStyle} setShow={setShow}/> : <h3 style={{textAlign: 'center', borderTop: '1px solid lightgray', padding: '15px', position: 'sticky', bottom: '0', backgroundColor: 'white'}}>please login to upload image</h3>}
+    {user ? <ImageUpload style={uploadStyle} userId={user.uid} username={user.displayName} setUploadStyle={setUploadStyle} setShow={setShow}/> : <h3 style={{textAlign: 'center', borderTop: '1px solid lightgray', padding: '15px', position: 'sticky', bottom: '0', backgroundColor: 'white'}}>please login to upload image</h3>}
     </div>
   );
 }
